@@ -1,13 +1,14 @@
 <div class="chat-container">
-    <div class="chat-box">
-      <div *ngFor="let msg of chatMessages" class="message" [ngClass]="{'user': msg.isUser, 'bot': !msg.isUser}">
-        {{ msg.text }}
-      </div>
-    </div>
-  
-    <div class="input-area">
-      <input type="text" [(ngModel)]="userInput" placeholder="Ask something..." class="form-control" (keyup.enter)="sendMessage()">
-      <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+  <div class="chat-box">
+    <div *ngFor="let msg of chatMessages" class="message" [ngClass]="{'user': msg.isUser, 'bot': !msg.isUser}">
+      {{ msg.text }}
+      <button *ngIf="!msg.isUser && msg.id !== undefined" (click)="reportInvalid(msg.id)">Report Invalid</button>
     </div>
   </div>
-  
+
+  <div class="input-area">
+    <input type="text" [(ngModel)]="userInput" placeholder="Ask something..." class="form-control" (keyup.enter)="sendMessage()">
+    <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+  </div>
+
+</div>

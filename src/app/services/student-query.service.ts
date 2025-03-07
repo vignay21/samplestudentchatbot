@@ -25,7 +25,15 @@ export class StudentQueryService {
     return this.http.post<StudentQuery>(this.apiUrl, query);
   }
 
-  deleteQuery(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  reportInvalidQuery(query: { id: number; question: string; answer?: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reportInvalid`, query);
+  }
+
+  getInvalidQueries(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/Invalid`);
+  }
+
+  deleteQuery(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/Delete/${id}`);
   }
 }

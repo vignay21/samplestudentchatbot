@@ -1,0 +1,21 @@
+<h2>Admin Panel</h2>
+<p>Manage invalid queries here.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Answer</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let query of invalidQueries">
+      <td>{{ query.question }}</td>
+      <td>{{ query.answer }}</td>
+      <td>
+        <button (click)="deleteQuery(query.id)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
