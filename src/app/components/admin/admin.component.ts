@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentQueryService } from '../../services/student-query.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -12,11 +14,26 @@ import { CommonModule } from '@angular/common';
 export class AdminComponent implements OnInit {
   invalidQueries: any[] = [];
 
-  constructor(private studentQueryService: StudentQueryService) {}
+  constructor(
+    private studentQueryService: StudentQueryService,
+    private router: Router,
+    public authService: AuthService
+  ) {
+    // ✅ Redirect to login if the user is not authenticated
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    }
+  }
 
   ngOnInit(): void {
-    this.loadInvalidQueries();
+    if (!this.authService.isAuthenticated()) {
+      console.log("❌ Not authenticated. Redirecting to login...");
+      this.router.navigate(['/login']); // Redirect to login if not authenticated
+    } else {
+      console.log("✅ Authenticated. Loading admin panel...");
+    }
   }
+  
 
   loadInvalidQueries(): void {
     this.studentQueryService.getInvalidQueries().subscribe(
@@ -40,5 +57,10 @@ export class AdminComponent implements OnInit {
         }
       );
     }
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']); // Redirect to login after logout
   }
 }

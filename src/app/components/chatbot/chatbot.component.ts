@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StudentQueryService } from '../../services/student-query.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 interface ChatMessage {
   id?: number;  // Optional id field for identifying bot responses
@@ -20,9 +21,13 @@ export class ChatbotComponent implements OnInit {
   chatMessages: ChatMessage[] = [];  // Stores all messages in the chat
   userInput: string = '';  // Bind user input to this property
 
-  constructor(private studentQueryService: StudentQueryService) {}
+  constructor(private studentQueryService: StudentQueryService, private router: Router) {}
 
   ngOnInit(): void {}
+
+  goToLogin() {
+    this.router.navigate(['/login']); // Redirect to login page
+  }
 
   sendMessage(): void {
     if (!this.userInput.trim()) return;  // Prevent sending empty messages

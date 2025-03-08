@@ -1,27 +1,26 @@
 import { Component } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule], 
-  template: `
-    <nav style="display: flex; gap: 20px; padding: 10px;">
-      <a routerLink="/" class="home-link">Home</a>
-      <a routerLink="/admin" class="admin-link">Go to Admin Panel</a>
-    </nav>
-    <router-outlet></router-outlet> <!-- Loads pages dynamically -->
-  `,
-  styles: [`
-    nav {
-      background-color: #f1f1f1;
-      padding: 10px;
-    }
-    a {
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: bold;
-    }
-  `]
+  imports: [RouterModule],  // ✅ Add RouterModule to imports
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent {}
+export class AppComponent {
+  showAdminButton = false;
+
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.showAdminButton = this.router.url === '/';
+      }
+    });
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+}
